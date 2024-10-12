@@ -2,6 +2,7 @@ import os
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import chromadb
 from chromadb.config import Settings
@@ -10,6 +11,19 @@ from .llama_index_query import get_router_query_engine
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="my-app/build/static"), name="static")
+
+# CORS
+origins = [
+    "http://localhost:3000",  # React frontend local server
+    "https://example.com",     # Replace with your frontend production URL
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allows specific origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
 agent = get_router_query_engine(chat_agent=True, embed_model=embed_model)
