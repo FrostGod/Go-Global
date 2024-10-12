@@ -1,1 +1,4 @@
 ./goglobal/node_modules
+lib/
+bin/
+include/
