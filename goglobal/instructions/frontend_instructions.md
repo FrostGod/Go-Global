@@ -10,9 +10,58 @@ agents(which are experts in their own domain), and users can use these agents to
     - the landing page should contain the product logo for now a place holder can be used.
     - the landing page should contain a nav bar with following tabs Agents, Docs, Pricing.
     - generate some contain related to the product, and then create a template footer for now
+    - Now lets add logo
+    - Now lets add the clerk user signup functionality
     - instructions to be added
 
 # Relevant docs
+## Clerk Documentation
+
+middleware.ts
+
+import { clerkMiddleware } from "@clerk/nextjs/server";
+
+export default clerkMiddleware();
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
+  ],
+};
+
+/src/app/layout.tsx to app router
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+import './globals.css'
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
+  )
+}
 
 # Current File Structure
 goglobal/
