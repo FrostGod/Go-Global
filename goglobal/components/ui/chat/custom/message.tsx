@@ -7,7 +7,6 @@ import { ReactNode } from "react";
 import { BotIcon, UserIcon } from "./icons";
 import { Markdown } from "./markdown";
 import { PreviewAttachment } from "./preview-attachment";
-import { Weather } from "./weather";
 
 export const Message = ({
   role,
@@ -36,33 +35,7 @@ export const Message = ({
             <Markdown>{content as string}</Markdown>
           </div>
         )}
-
-        {toolInvocations && (
-          <div className="flex flex-col gap-4">
-            {toolInvocations.map((toolInvocation) => {
-              const { toolName, toolCallId, state } = toolInvocation;
-
-              if (state === "result") {
-                const { result } = toolInvocation;
-
-                return (
-                  <div key={toolCallId}>
-                    {toolName === "getWeather" ? (
-                      <Weather weatherAtLocation={result} />
-                    ) : null}
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={toolCallId} className="skeleton">
-                    {toolName === "getWeather" ? <Weather /> : null}
-                  </div>
-                );
-              }
-            })}
-          </div>
-        )}
-
+        
         {attachments && (
           <div className="flex flex-row gap-2">
             {attachments.map((attachment) => (

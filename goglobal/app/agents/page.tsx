@@ -1,5 +1,6 @@
 // app/agents/[agentId]/chat.tsx
 import { useParams } from 'next/navigation';
+import { Navbar } from '@/components/ui/chat/custom/navbar';
 import { Chat } from '@/components/ui/chat/custom/chat'; // Adjust path as needed
 
 export default function AgentChat() {
@@ -8,6 +9,16 @@ export default function AgentChat() {
 
   // ... use agentId to fetch initial messages or other data ...
 
-  return <Chat id={"agentId"} initialMessages={[]} />;
+  return(
+
+    <html lang="en">
+    <body className="antialiased">
+
+        <Navbar />
+        <Chat id={"agentId"} initialMessages={[]} />
+    </body>
+  </html>
+
+);
 }
 
