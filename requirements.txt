@@ -48,6 +48,7 @@ llama-index==0.11.17
 llama-index-agent-openai==0.3.4
 llama-index-cli==0.3.1
 llama-index-core==0.11.17
+llama-index-embeddings-huggingface==0.3.1
 llama-index-embeddings-openai==0.2.5
 llama-index-indices-managed-llama-cloud==0.4.0
 llama-index-legacy==0.9.48.post3
@@ -63,6 +64,7 @@ markdown-it-py==3.0.0
 MarkupSafe==3.0.1
 marshmallow==3.22.0
 mdurl==0.1.2
+minijinja==2.2.0
 mmh3==5.0.1
 monotonic==1.6
 mpmath==1.3.0
@@ -111,6 +113,9 @@ requests-oauthlib==2.0.0
 rich==13.9.2
 rsa==4.9
 safetensors==0.4.5
+scikit-learn==1.5.2
+scipy==1.14.1
+sentence-transformers==3.2.0
 setuptools==75.1.0
 shellingham==1.5.4
 six==1.16.0
@@ -121,6 +126,7 @@ starlette==0.39.2
 striprtf==0.0.26
 sympy==1.13.3
 tenacity==8.5.0
+threadpoolctl==3.5.0
 tiktoken==0.8.0
 tokenizers==0.20.1
 torch==2.4.1
