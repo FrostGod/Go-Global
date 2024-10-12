@@ -12,14 +12,14 @@ from llama_index.core import StorageContext
 import chromadb
 from chromadb.config import DEFAULT_TENANT, DEFAULT_DATABASE, Settings
 import os
-import nest_asyncio
+#import nest_asyncio
 
-nest_asyncio.apply()
-os.environ['OPENAI_API_KEY'] ="sk-XXXX" # fill out own API
+#nest_asyncio.apply()
+#os.environ['OPENAI_API_KEY'] ="sk-XXXX" # fill out own API
 
 
 
-def get_router_query_engine(file_path: str, llm = None, embed_model = None, db_path = os.path.join(os.getcwd(), 'db/chroma_db')):
+def get_router_query_engine(llm = None, embed_model = None, db_path = os.path.join(os.getcwd(), 'db/chroma_db')):
     """Load Chroma vector db"""
     client = chromadb.PersistentClient(
         path=db_path,
@@ -83,3 +83,4 @@ def get_router_query_engine(file_path: str, llm = None, embed_model = None, db_p
     return query_engine
 
 if __name__ == '__main__':
+    pass
