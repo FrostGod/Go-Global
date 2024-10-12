@@ -8,11 +8,21 @@ agents(which are experts in their own domain), and users can use these agents to
 - landing page instruction
     - Create a simple landing page for the product, which is just a intro page about the product
     - the landing page should contain the product logo for now a place holder can be used.
-    - the landing page should contain a nav bar with following tabs Agents, Docs, Pricing.
+    - the landing page should contain a nav bar with following tabs Agents, Expo, Pricing.
     - generate some contain related to the product, and then create a template footer for now
-    - Now lets add logo
-    - Now lets add the clerk user signup functionality
-    - instructions to be added
+    - lets add logo
+    - lets add the clerk user signup functionality
+- Expo page
+  - This is a table where companies list themselves and put where they want to expand their business
+  - it contains the following columns
+    Company_ID – A unique identifier for each company.
+    Logo – The company's logo or brand image.
+    Company_Name – The name of the company.
+    Company_Description – A brief description of what the company does.
+    Expansion_Locations – Locations where the company plans to expand.
+    Objective – What the company is looking for in terms of resources, such as advertisers, legal consultancies, local talent agencies, etc.
+    Potential_Partners – List of specific entities or types of companies (e.g., advertisers, legal consultancies, local talent agencies) the company seeks to partner with.
+  - the data will be fetched from the supabase
 
 # Relevant docs
 ## Clerk Documentation
