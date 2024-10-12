@@ -1,6 +1,8 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { BackgroundPattern } from '@/components/background-pattern'
+import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from '@clerk/nextjs'
 
 export default function Home() {
   return (
@@ -9,16 +11,30 @@ export default function Home() {
       <header className="container mx-auto py-4">
         <nav className="flex justify-between items-center">
           <div className="flex items-center">
-            {/* Placeholder for logo */}
-            <div className="w-10 h-10 bg-gray-300 rounded-full mr-2"></div>
+            <Image 
+              src="/images/image.png" 
+              alt="GoGlobal Logo" 
+              width={40} 
+              height={40} 
+              className="mr-2"
+            />
             <span className="text-xl font-bold">GoGlobal</span>
           </div>
           <div className="space-x-4">
             <Link href="/agents">Agents</Link>
             <Link href="/docs">Docs</Link>
             <Link href="/pricing">Pricing</Link>
-            <Button variant="outline">Get a Demo</Button>
-            <Button>Sign Up</Button>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button variant="outline">Sign In</Button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button>Sign Up</Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
           </div>
         </nav>
       </header>
