@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from "react";
 import { toast } from "sonner";
+import Image from 'next/image'; // If using Next.js's Image
 import useSWR from "swr";
 
 // import { Chat } from "@/db/schema";
@@ -46,14 +47,15 @@ import {
 interface Agent {
   id: string;
   label: string;
+  llama: string;
   // ... other properties if needed
 }
 
 // Example usage:
 const agents: Agent[] = [
-  { id: '1', label: 'USA' },
-  { id: '2', label: 'China' },
-  { id: '3', label: 'Germany' },
+  { id: '1', label: 'US', llama: "llama_us" },
+  { id: '2', label: 'China', llama: "llama_china"},
+  { id: '3', label: 'India', llama: "llama_india" },
 ];
 
 export const AgentSelector = ({ OnAgentChange}: { OnAgentChange: (agent: string) => void }) => {
@@ -111,9 +113,14 @@ export const AgentSelector = ({ OnAgentChange}: { OnAgentChange: (agent: string)
             OnAgentChange(agent.label);
             setAgentSelectorVisible(false);
           }} // Call callback with item ID
-          className="m-2 p-2 bg-blue-500 text-white rounded-md" // Add styling
+          className="m-4 bg-white-500 text-black rounded-md" // Add styling
         >
-          {agent.label}
+                      <div className="flex items-center justify-center">  {/* Added a div */}
+
+          <Image src={"/images/" + agent.llama + ".jpeg"} alt="Expansion Strategy" width={200} height={100} className="rounded-lg" />
+          </div>
+          <span>{agent.label}</span>
+
         </button>
       ))}
     </div>
