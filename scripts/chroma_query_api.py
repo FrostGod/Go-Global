@@ -22,6 +22,7 @@ app.add_middleware(
 )
 
 embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
+china_agent = get_router_query_engine(chat_agent=True, embed_model=embed_model, collection_name='document_chunks_china')
 agent = get_router_query_engine(chat_agent=True, embed_model=embed_model)
 
 # Define a request model

@@ -22,7 +22,7 @@ import os
 
 
 
-def get_router_query_engine(chat_agent = True, llm = None, embed_model = None, db_path = os.path.join(os.getcwd(), 'db/chroma_db')):
+def get_router_query_engine(chat_agent = True, llm = None, embed_model = None, db_path = os.path.join(os.getcwd(), 'db/chroma_db'), collection_name = 'document_chunks'):
     """Load Chroma vector db"""
     client = chromadb.PersistentClient(
         path=db_path,
@@ -30,7 +30,7 @@ def get_router_query_engine(chat_agent = True, llm = None, embed_model = None, d
         tenant=DEFAULT_TENANT,
         database=DEFAULT_DATABASE,
     )
-    chroma_collection = client.get_or_create_collection("document_chunks")
+    chroma_collection = client.get_or_create_collection(collection_name)
     vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
