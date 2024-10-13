@@ -8,11 +8,41 @@ agents(which are experts in their own domain), and users can use these agents to
 - landing page instruction
     - Create a simple landing page for the product, which is just a intro page about the product
     - the landing page should contain the product logo for now a place holder can be used.
-    - the landing page should contain a nav bar with following tabs Agents, Docs, Pricing.
+    - the landing page should contain a nav bar with following tabs Agents, Expo, Pricing.
     - generate some contain related to the product, and then create a template footer for now
-    - Now lets add logo
-    - Now lets add the clerk user signup functionality
-    - instructions to be added
+    - lets add logo
+    - lets add the clerk user signup functionality
+- Expo page
+  - This is a table where companies list themselves and put where they want to expand their business
+  - it contains the following columns
+    Company_ID – A unique identifier for each company.
+    Logo – The company's logo or brand image.
+    Company_Name – The name of the company.
+    Company_Description – A brief description of what the company does.
+    Expansion_Locations – Locations where the company plans to expand.
+    Objective – What the company is looking for in terms of resources, such as advertisers, legal consultancies, local talent agencies, etc.
+    Potential_Partners – List of specific entities or types of companies (e.g., advertisers, legal consultancies, local talent agencies) the company seeks to partner with.
+
+  - now lets connect the supabase
+
+
+
+  it has already been setup 
+  CREATE TABLE IF NOT EXISTS expansion_info (
+  id bigint PRIMARY KEY,
+  image_url text,
+  name text,
+  description text,
+  expansion_locations jsonb,
+  objective jsonb,
+  potential_interests text
+);
+
+the logo should go to the logo's storage bucket
+  
+
+
+
 
 # Relevant docs
 ## Clerk Documentation
@@ -62,6 +92,43 @@ export default function RootLayout({
     </ClerkProvider>
   )
 }
+
+# Supabase reference
+
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { type NextRequest, NextResponse } from "next/server";
+
+export const createClient = (request: NextRequest) => {
+  // Create an unmodified response
+  let supabaseResponse = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          supabaseResponse = NextResponse.next({
+            request,
+          })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          )
+        },
+      },
+    },
+  );
+
+  return supabaseResponse
+};
 
 # Current File Structure
 goglobal/

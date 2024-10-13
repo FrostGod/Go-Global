@@ -8,21 +8,18 @@ import chromadb
 from chromadb.config import Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from .llama_index_query import get_router_query_engine
+from fastapi.responses import FileResponse  # Add this import
 
 app = FastAPI()
 # app.mount("/static", StaticFiles(directory="my-app/build/static"), name="static")
 
-# CORS
-origins = [
-    "http://localhost:3000",  # React frontend local server
-    "https://example.com",     # Replace with your frontend production URL
-]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Allows specific origins
+    allow_origins=["http://localhost:3000"],  # Replace with your frontend's origin
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
@@ -61,6 +58,7 @@ async def upload_file(file: UploadFile = File(...)):
 # Initialize the query engine (if needed)
 @app.post("/api/chat")
 async def query_router(request: QueryRequest):
+    print(request)
     try:
         # Run the query using the engine
         result = agent.chat(request.query)

@@ -3,3 +3,4 @@ lib/
 bin/
 include/
 ./goglobal/.env.local
+scripts/__pycache__/

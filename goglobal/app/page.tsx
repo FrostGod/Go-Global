@@ -22,7 +22,7 @@ export default function Home() {
           </div>
           <div className="space-x-4">
             <Link href="/agents">Agents</Link>
-            <Link href="/docs">Docs</Link>
+            <Link href="/expo">Expo</Link>
             <Link href="/pricing">Pricing</Link>
             <SignedOut>
               <SignInButton mode="modal">
