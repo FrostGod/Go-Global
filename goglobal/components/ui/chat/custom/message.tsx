@@ -6,18 +6,35 @@ import { ReactNode } from "react";
 
 import { BotIcon, UserIcon } from "./icons";
 import { Markdown } from "./markdown";
+import { ClientCard } from "@/components/ui/chat/custom/client-cards";
+import { LocationTable } from "@/components/ui/chat/custom/location-table";
+
 import { PreviewAttachment } from "./preview-attachment";
+
+interface Client {
+  client_name: string
+  client_location: string
+  client_contact: string
+  client_description: string
+}
+
+interface Location {
+  location: string
+  description: string
+}
 
 export const Message = ({
   role,
   content,
   toolInvocations,
   attachments,
+  format,
 }: {
   role: string;
-  content: string | ReactNode;
+  content: string | ReactNode | Client[];
   toolInvocations: Array<ToolInvocation> | undefined;
   attachments?: Array<Attachment>;
+  format?: string;
 }) => {
   return (
     <motion.div
@@ -32,7 +49,13 @@ export const Message = ({
       <div className="flex flex-col gap-2 w-full">
         {content && (
           <div className="text-zinc-800 dark:text-zinc-300 flex flex-col gap-4">
+            if (format == "card") {
+            <ClientCard content={content as Client[]} />
+          } else if (format == "table") {
+            <LocationTable content={content as Location[]}/>
+          } else {
             <Markdown>{content as string}</Markdown>
+          }
           </div>
         )}
         
