@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { createClient } from '@/utils/supabase/client'
 import AddCompanyForm from '@/components/add-company-form'
 
@@ -83,31 +83,29 @@ export default function ExpoPage() {
           />
         )}
 
-        <Table>
-          <TableCaption>List of companies and their expansion plans</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[50px]">Company ID</TableHead>
-              <TableHead>Company Name</TableHead>
-              <TableHead>Company Description</TableHead>
-              <TableHead>Expansion Locations</TableHead>
-              <TableHead>Objective</TableHead>
-              <TableHead>Potential Partners</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {companies.map((company) => (
-              <TableRow key={company.id}>
-                <TableCell>{company.id}</TableCell>
-                <TableCell className="font-medium">{company.name}</TableCell>
-                <TableCell>{company.description}</TableCell>
-                <TableCell>{company.expansion_locations.join(', ')}</TableCell>
-                <TableCell>{company.objective}</TableCell>
-                <TableCell>{company.potential_interests}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {companies.map((company) => (
+            <Card key={company.id} className="flex flex-col">
+              <CardHeader>
+                <div className="w-full h-48 relative mb-4">
+                  <Image 
+                    src={company.image_url || '/images/placeholder.png'} 
+                    alt={`${company.name} logo`}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+                <CardTitle>{company.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600 mb-2">{company.description}</p>
+                <p className="text-sm"><strong>Expansion Locations:</strong> {company.expansion_locations.join(', ')}</p>
+                <p className="text-sm"><strong>Objective:</strong> {company.objective}</p>
+                <p className="text-sm"><strong>Potential Partners:</strong> {company.potential_interests}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </main>
       
       <footer className="bg-gray-100">
