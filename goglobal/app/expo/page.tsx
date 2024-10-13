@@ -46,31 +46,33 @@ export default function ExpoPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="container mx-auto py-4">
-        <nav className="flex justify-between items-center">
-          <Link href="/" className="flex items-center">
-            <Image 
-              src="/images/image.png" 
-              alt="GoGlobal Logo" 
-              width={40} 
-              height={40} 
-              className="mr-2"
-            />
-            <span className="text-xl font-bold">GoGlobal</span>
-          </Link>
-          <div className="space-x-4">
-            <Link href="/agents">Agents</Link>
-            <Link href="/expo" className="font-bold">Expo</Link>
-            <Link href="/pricing">Pricing</Link>
-          </div>
-        </nav>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <header className="bg-white shadow-sm">
+        <div className="container mx-auto py-4">
+          <nav className="flex justify-between items-center">
+            <Link href="/" className="flex items-center">
+              <Image 
+                src="/images/image.png" 
+                alt="GoGlobal Logo" 
+                width={40} 
+                height={40} 
+                className="mr-2"
+              />
+              <span className="text-xl font-bold">GoGlobal</span>
+            </Link>
+            <div className="space-x-4">
+              <Link href="/agents">Agents</Link>
+              <Link href="/expo" className="font-bold">Expo</Link>
+              <Link href="/pricing">Pricing</Link>
+            </div>
+          </nav>
+        </div>
       </header>
       
       <main className="flex-grow container mx-auto py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Expansion Expo</h1>
-          <Button onClick={() => setShowForm(true)}>Add New Company</Button>
+          <h1 className="text-3xl font-bold">Expo</h1>
+          <Button onClick={() => setShowForm(true)}>List My Company</Button>
         </div>
         
         {showForm && (
@@ -83,32 +85,46 @@ export default function ExpoPage() {
           />
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-6">
           {companies.map((company) => (
-            <Card key={company.id} className="flex flex-col">
-              <CardHeader>
-                <div className="w-full h-48 relative mb-4">
-                  <Image 
-                    src={company.image_url || '/images/placeholder.png'} 
-                    alt={`${company.name} logo`}
-                    layout="fill"
-                    objectFit="contain"
-                  />
+            <Card key={company.id} className="overflow-hidden">
+              <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-1/3 p-6">
+                  <div className="w-full h-48 relative mb-4">
+                    {company.image_url && company.image_url.startsWith('http') ? (
+                      <img 
+                        src={company.image_url}
+                        alt={`${company.name} logo`}
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <Image 
+                        src={company.image_url || '/images/placeholder.png'}
+                        alt={`${company.name} logo`}
+                        layout="fill"
+                        objectFit="contain"
+                      />
+                    )}
+                  </div>
                 </div>
-                <CardTitle>{company.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600 mb-2">{company.description}</p>
-                <p className="text-sm"><strong>Expansion Locations:</strong> {company.expansion_locations.join(', ')}</p>
-                <p className="text-sm"><strong>Objective:</strong> {company.objective}</p>
-                <p className="text-sm"><strong>Potential Partners:</strong> {company.potential_interests}</p>
-              </CardContent>
+                <div className="w-full md:w-2/3 p-6">
+                  <CardHeader>
+                    <CardTitle className="text-2xl">{company.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-4">{company.description}</p>
+                    <p className="mb-2"><strong>Expansion Locations:</strong> {company.expansion_locations.join(', ')}</p>
+                    <p className="mb-2"><strong>Objective:</strong> {company.objective}</p>
+                    <p><strong>Potential Partners:</strong> {company.potential_interests}</p>
+                  </CardContent>
+                </div>
+              </div>
             </Card>
           ))}
         </div>
       </main>
       
-      <footer className="bg-gray-100">
+      <footer className="bg-white border-t">
         <div className="container mx-auto py-4 text-center">
           <p className="text-sm text-gray-600">© 2024 GoGlobal. All rights reserved.</p>
         </div>

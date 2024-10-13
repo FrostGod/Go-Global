@@ -6,18 +6,36 @@ import { ReactNode } from "react";
 
 import { BotIcon, UserIcon } from "./icons";
 import { Markdown } from "./markdown";
+import { ClientCard } from "@/components/ui/chat/custom/client-cards";
+import { LocationTable } from "@/components/ui/chat/custom/location-table";
+
 import { PreviewAttachment } from "./preview-attachment";
+
+interface Client {
+  client_name: string
+  client_location: string
+  client_contact: string
+  client_description: string
+}
+
+interface Location {
+  location: string
+  description: string
+}
 
 export const Message = ({
   role,
   content,
+  request,
   toolInvocations,
   attachments,
 }: {
   role: string;
-  content: string | ReactNode;
+  request: string;
+  content: string | ReactNode | Client[];
   toolInvocations: Array<ToolInvocation> | undefined;
   attachments?: Array<Attachment>;
+  format?: string;
 }) => {
   return (
     <motion.div
@@ -30,9 +48,17 @@ export const Message = ({
       </div>
 
       <div className="flex flex-col gap-2 w-full">
-        {content && (
+      {content && (
           <div className="text-zinc-800 dark:text-zinc-300 flex flex-col gap-4">
-            <Markdown>{content as string}</Markdown>
+            {request === "Client Directory" && Array.isArray(content) && (
+              <ClientCard content={content as Client[]} />
+            )}
+            {request === "Location List" && Array.isArray(content) && (
+              <LocationTable content={content as unknown as Location[]} />
+            )}
+            {request !== "Client Directory" && request !== "Location List" && typeof content === "string" && (
+              <Markdown>{content}</Markdown>
+            )}
           </div>
         )}
         

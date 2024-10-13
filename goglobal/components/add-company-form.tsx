@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { createClient } from '@/utils/supabase/client'
 
 interface FormData {
@@ -66,16 +67,38 @@ export default function AddCompanyForm({ onClose, onSubmit }: AddCompanyFormProp
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mb-8 p-4 border rounded-lg">
-      <Input name="name" placeholder="Company Name" onChange={handleChange} required />
-      <Textarea name="description" placeholder="Company Description" onChange={handleChange} required />
-      <Input name="expansion_locations" placeholder="Expansion Locations (comma-separated)" onChange={handleChange} required />
-      <Input name="objective" placeholder="Objective" onChange={handleChange} required />
-      <Input name="potential_interests" placeholder="Potential Interests" onChange={handleChange} required />
-      <div className="flex justify-end space-x-2">
-        <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-        <Button type="submit">Add Company</Button>
-      </div>
-    </form>
+    <Card className="mb-8">
+      <CardHeader>
+        <CardTitle>List Your Company</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+            <Input id="name" name="name" placeholder="Enter company name" onChange={handleChange} required />
+          </div>
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Company Description</label>
+            <Textarea id="description" name="description" placeholder="Describe your company" onChange={handleChange} required />
+          </div>
+          <div>
+            <label htmlFor="expansion_locations" className="block text-sm font-medium text-gray-700 mb-1">Expansion Locations</label>
+            <Input id="expansion_locations" name="expansion_locations" placeholder="Enter locations (comma-separated)" onChange={handleChange} required />
+          </div>
+          <div>
+            <label htmlFor="objective" className="block text-sm font-medium text-gray-700 mb-1">Objective</label>
+            <Input id="objective" name="objective" placeholder="Enter your objective" onChange={handleChange} required />
+          </div>
+          <div>
+            <label htmlFor="potential_interests" className="block text-sm font-medium text-gray-700 mb-1">Potential Interests</label>
+            <Input id="potential_interests" name="potential_interests" placeholder="Enter potential interests" onChange={handleChange} required />
+          </div>
+          <div className="flex justify-end space-x-2">
+            <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
+            <Button type="submit">List My Company</Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   )
 }
