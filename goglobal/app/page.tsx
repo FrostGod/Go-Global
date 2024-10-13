@@ -22,9 +22,11 @@ export default function Home() {
             <span className="text-xl font-bold">GoGlobal</span>
           </div>
           <div className="space-x-4">
+            <Link href="/profile">Profile</Link>
             <Link href="/agents">Agents</Link>
             <Link href="/expo">Expo</Link>
             <Link href="/pricing">Pricing</Link>
+            
             <SignedOut>
               <SignInButton mode="modal">
                 <Button variant="outline">Sign In</Button>
@@ -51,8 +53,12 @@ export default function Home() {
           we have agents that can help you manage your customers.
         </p>
         <div className="space-x-4 mb-12">
-          <Button size="lg">Get Started</Button>
-          <Button size="lg" variant="outline">Get a demo</Button>
+          <Link href="/pricing">
+            <Button size="lg">Get Started</Button>
+          </Link>
+          <Link href="/agents">
+            <Button size="lg" variant="outline">Get a demo</Button>
+          </Link>
         </div>
         <div className="relative w-full max-w-4xl mx-auto mb-16">
           <Image

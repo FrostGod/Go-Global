@@ -32,7 +32,15 @@ export default function PricingPage() {
         <div className="grid md:grid-cols-2 gap-8">
           <Card className="flex flex-col justify-between">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold">Free for Hackathon</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-2xl font-bold">Free for Hackathon</CardTitle>
+                <Image 
+                  src="/images/llama_us.jpg" 
+                  alt="Hackathon Icon" 
+                  width={50} 
+                  height={50}
+                />
+              </div>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold mb-4">$0 <span className="text-sm font-normal">for 15 days</span></p>
@@ -40,7 +48,7 @@ export default function PricingPage() {
                 <li>✅ Full access to all features</li>
                 <li>✅ AI-powered expansion strategies</li>
                 <li>✅ Intelligent lead generation</li>
-                <li>✅ Customer management tools</li>
+                <li>✅ Client Verification service</li>
                 <li>✅ 24/7 AI support</li>
               </ul>
               <Button className="w-full mt-6">Get Started</Button>
@@ -49,7 +57,15 @@ export default function PricingPage() {
           
           <Card className="flex flex-col justify-between">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold">Enterprise</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-2xl font-bold">Enterprise</CardTitle>
+                <Image 
+                  src="/images/llama_china.jpeg" 
+                  alt="Enterprise Icon" 
+                  width={50} 
+                  height={50}
+                />
+              </div>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold mb-4">Custom Pricing</p>
