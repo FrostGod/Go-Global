@@ -11,6 +11,8 @@ from llama_index.core.selectors import LLMSingleSelector
 from llama_index.vector_stores.chroma import ChromaVectorStore
 from llama_index.core import StorageContext
 from llama_index.agent.openai import OpenAIAgent
+from llama_index.retrievers.you import YouRetriever
+from llama_index.core.query_engine import RetrieverQueryEngine
 
 import chromadb
 from chromadb.config import DEFAULT_TENANT, DEFAULT_DATABASE, Settings
@@ -20,7 +22,11 @@ import os
 #nest_asyncio.apply()
 #os.environ['OPENAI_API_KEY'] ="sk-XXXX" # fill out own API
 
-
+def get_you_engine():
+    you_api_key = "" or os.environ["YDC_API_KEY"]
+    retriever = YouRetriever(endpoint="search", api_key=you_api_key)
+    query_engine = RetrieverQueryEngine.from_args(retriever)
+    return query_engine
 
 def get_router_query_engine(chat_agent = True, llm = None, embed_model = None, db_path = os.path.join(os.getcwd(), 'db/chroma_db'), collection_name = 'document_chunks'):
     """Load Chroma vector db"""
@@ -35,7 +41,7 @@ def get_router_query_engine(chat_agent = True, llm = None, embed_model = None, d
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
     """Get router query engine."""
-    llm = llm or OpenAI(model="gpt-3.5-turbo")
+    llm = llm or OpenAI(model="gpt-4-turbo")
     embed_model = embed_model or OpenAIEmbedding(model="text-embedding-ada-002")
 
     # from vector db
@@ -59,7 +65,21 @@ def get_router_query_engine(chat_agent = True, llm = None, embed_model = None, d
             ),
         ),
     )
-    tools = [query_engine_tool]
+
+    # You.com engin
+    you_engine = get_you_engine()
+    you_engine_tool = QueryEngineTool(
+        query_engine=you_engine,
+        metadata=ToolMetadata(
+            name="you_search_engine",
+            description=(
+                "useful for searching latest data"
+                "multiple document for business in US and China"
+            ),
+        ),
+    )
+
+    tools = [you_engine_tool, query_engine_tool]
     agent = OpenAIAgent.from_tools(tools, verbose=True)
     return agent
 
