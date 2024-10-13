@@ -64,7 +64,19 @@ async def query_router(request: QueryRequest):
     print(request)
     try:
         # Run the query using the engine
-        result = agent.chat(request.message)
+        result = ''
+        if 'Client Directory' in request.message:
+            prompt = """Give me potential 3-5 clients. Give response as a JSON object in such format.
+            {
+                clients:[
+                { 'client_name': clientA_name, 'client_location': clientA_location, 'client_contact': clientA_phone, 'client_description': clientB_description},
+                ...
+                ]
+            }.
+            """
+            result = agent.chat(prompt)
+        else:
+            result = agent.chat(request.message)
         return {"message": str(result)}
 
     except Exception as e:
