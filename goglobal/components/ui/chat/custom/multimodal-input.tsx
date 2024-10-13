@@ -20,6 +20,11 @@ import { Textarea } from "../ui/textarea";
 
 const suggestedActions = [
   {
+    title: "Summarize my company",
+    label: "for franchising",
+    action: "Summary",
+  },
+  {
     title: "List the top clients",
     label: "in San Francisco",
     action: "Client Directory",

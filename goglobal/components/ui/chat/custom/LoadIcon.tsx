@@ -2,13 +2,13 @@ import Image from 'next/image'
 
 export function TransparentLoader({ size = 100 }: { size?: number }) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-transparent">
-      <div className="relative" style={{ width: size, height: size }}>
+<div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-brown-500/50">
+<div className="relative" style={{ width: size, height: size }}>
         <Image
-          src="/placeholder.svg?height=100&width=100"
+          src="/images/llama-gif.gif"
           alt="Loading"
           layout="fill"
-          className="animate-spin"
+        //   className="animate-spin"
         />
       </div>
     </div>
