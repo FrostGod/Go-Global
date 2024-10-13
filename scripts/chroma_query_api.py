@@ -10,6 +10,8 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from .llama_index_query import get_router_query_engine
 from .chunk_and_store_in_chroma import chunk_data
 from fastapi.responses import FileResponse  # Add this import
+from llama_index.core.llms import ChatMessage, MessageRole
+from llama_index.core import ChatPromptTemplate
 
 app = FastAPI()
 # app.mount("/static", StaticFiles(directory="my-app/build/static"), name="static")
@@ -66,25 +68,38 @@ async def query_router(request: QueryRequest):
         # Run the query using the engine
         result = ''
         if 'Client Directory' in request.message:
-            prompt = """Summarize and give me 3-5 potential client companies related to my company. Give response as a JSON object in such format.
-            {
+            prompt =  (
+                'Summarize and give me 3-5 potential client companies related to my company',
+                'Give response as a JSON object in the format:',
+                'For example:',
+                """
+                {
                 clients:[
                 { 'client_name': clientA_name, 'client_location': clientA_location, 'client_contact': clientA_phone, 'client_description': clientB_description},
                 ...
                 ]
-            }
-            """
+                }
+                """
+            )
+            prompt = '\n'.join(prompt)
             result = agent.chat(prompt)
-        if 'Location Description' in request.message:
-            prompt = """Give me 3-5 locations suitable for my company. Give response as a JSON object in such format.
-            {
+        elif 'Location Description' in request.message:
+            prompt = (
+                'Give me 3-5 locations suitable for expansion of my company',
+                'Give response as a JSON object in the format:',
+                'For example:',
+                """
+                {
                 locations:[
                 { 'location': "New York City", description: "The most populous city in the United States, known for its iconic skyline and diverse culture." },
                 ...
-                ...
                 ]
-            }.
-            """
+                """
+            )
+            prompt = '\n'.join(prompt)
+            result = agent.chat(prompt)
+        elif 'Summary' in request.message:
+            prompt = "My Company is Jullycat, Summarize the advantages of my company and how to expand my market in US"
             result = agent.chat(prompt)
         else:
             result = agent.chat(request.message)
