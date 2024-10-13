@@ -1,40 +1,50 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { createClient } from '@/utils/supabase/client'
+import AddCompanyForm from '@/components/add-company-form'
 
-// Mock data for the table
-const companies = [
-  { 
-    Company_ID: 1, 
-    Logo: "/images/company1.png", 
-    Company_Name: "TechCorp", 
-    Company_Description: "Innovative software solutions", 
-    Expansion_Locations: "Europe, Asia",
-    Objective: "Seeking local talent and marketing partnerships",
-    Potential_Partners: "Tech recruiters, Digital marketing agencies"
-  },
-  { 
-    Company_ID: 2, 
-    Logo: "/images/company2.png", 
-    Company_Name: "GreenEnergy", 
-    Company_Description: "Sustainable energy tech", 
-    Expansion_Locations: "South America, Africa",
-    Objective: "Looking for local distributors and government contacts",
-    Potential_Partners: "Energy distributors, Government liaison firms"
-  },
-  { 
-    Company_ID: 3, 
-    Logo: "/images/company3.png", 
-    Company_Name: "HealthTech", 
-    Company_Description: "Advanced medical devices", 
-    Expansion_Locations: "North America, Australia",
-    Objective: "Seeking regulatory experts and healthcare partnerships",
-    Potential_Partners: "Medical regulatory consultants, Hospital networks"
-  },
-]
+// Type definition for the company object
+interface Company {
+  id: number;
+  image_url: string;
+  name: string;
+  description: string;
+  expansion_locations: string[];
+  objective: string;
+  potential_interests: string;
+}
 
 export default function ExpoPage() {
+  const [companies, setCompanies] = useState<Company[]>([])
+  const [showForm, setShowForm] = useState(false)
+  const supabase = createClient()
+
+  useEffect(() => {
+    fetchCompanies()
+  }, [])
+
+  async function fetchCompanies() {
+    try {
+      const { data, error } = await supabase
+        .from('expansion_info')
+        .select('*')
+      if (error) {
+        console.error('Error fetching companies:', error)
+        alert(`Error fetching companies: ${error.message}`)
+      } else {
+        setCompanies(data as Company[])
+      }
+    } catch (error) {
+      console.error('Unexpected error fetching companies:', error)
+      alert('An unexpected error occurred while fetching companies. Please try again.')
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="container mx-auto py-4">
@@ -58,13 +68,26 @@ export default function ExpoPage() {
       </header>
       
       <main className="flex-grow container mx-auto py-8">
-        <h1 className="text-3xl font-bold mb-6">Company Expansion Expo</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Expansion Expo</h1>
+          <Button onClick={() => setShowForm(true)}>Add New Company</Button>
+        </div>
+        
+        {showForm && (
+          <AddCompanyForm
+            onClose={() => setShowForm(false)}
+            onSubmit={() => {
+              setShowForm(false)
+              fetchCompanies()
+            }}
+          />
+        )}
+
         <Table>
           <TableCaption>List of companies and their expansion plans</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">Company ID</TableHead>
-              <TableHead className="w-[100px]">Logo</TableHead>
               <TableHead>Company Name</TableHead>
               <TableHead>Company Description</TableHead>
               <TableHead>Expansion Locations</TableHead>
@@ -74,16 +97,13 @@ export default function ExpoPage() {
           </TableHeader>
           <TableBody>
             {companies.map((company) => (
-              <TableRow key={company.Company_ID}>
-                <TableCell>{company.Company_ID}</TableCell>
-                <TableCell>
-                  <Image src={company.Logo} alt={`${company.Company_Name} logo`} width={50} height={50} />
-                </TableCell>
-                <TableCell className="font-medium">{company.Company_Name}</TableCell>
-                <TableCell>{company.Company_Description}</TableCell>
-                <TableCell>{company.Expansion_Locations}</TableCell>
-                <TableCell>{company.Objective}</TableCell>
-                <TableCell>{company.Potential_Partners}</TableCell>
+              <TableRow key={company.id}>
+                <TableCell>{company.id}</TableCell>
+                <TableCell className="font-medium">{company.name}</TableCell>
+                <TableCell>{company.description}</TableCell>
+                <TableCell>{company.expansion_locations.join(', ')}</TableCell>
+                <TableCell>{company.objective}</TableCell>
+                <TableCell>{company.potential_interests}</TableCell>
               </TableRow>
             ))}
           </TableBody>
