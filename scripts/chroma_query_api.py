@@ -66,10 +66,21 @@ async def query_router(request: QueryRequest):
         # Run the query using the engine
         result = ''
         if 'Client Directory' in request.message:
-            prompt = """Give me potential 3-5 clients. Give response as a JSON object in such format.
+            prompt = """Give me 3-5 potential client companies related to my company. Give response as a JSON object in such format.
             {
                 clients:[
                 { 'client_name': clientA_name, 'client_location': clientA_location, 'client_contact': clientA_phone, 'client_description': clientB_description},
+                ...
+                ]
+            }
+            """
+            result = agent.chat(prompt)
+        if 'Location Description' in request.message:
+            prompt = """Give me 3-5 locations suitable for my company. Give response as a JSON object in such format.
+            {
+                locations:[
+                { 'location': "New York City", description: "The most populous city in the United States, known for its iconic skyline and diverse culture." },
+                ...
                 ...
                 ]
             }.
