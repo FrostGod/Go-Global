@@ -24,9 +24,9 @@ export default function Home() {
           <div className="space-x-4">
             <Link href="/profile">Profile</Link>
             <Link href="/agents">Agents</Link>
+            <Link href="/verify">Verify</Link>
             <Link href="/expo">Expo</Link>
             <Link href="/pricing">Pricing</Link>
-            
             <SignedOut>
               <SignInButton mode="modal">
                 <Button variant="outline">Sign In</Button>
@@ -94,11 +94,11 @@ export default function Home() {
           
           <Card className="flex p-6">
             <div className="w-1/3">
-              <Image src="/images/llama_india.jpeg" alt="Customer Management" width={300} height={200} className="rounded-lg" />
+              <Image src="/images/llama_india.jpeg" alt="Client Verification" width={300} height={200} className="rounded-lg" />
             </div>
             <div className="w-2/3 pl-6 text-left">
-              <h2 className="text-2xl font-bold mb-2">Seamless Customer Management</h2>
-              <p>Our AI agents help you manage customer relationships across different cultures and time zones. They provide 24/7 support, handle inquiries, and ensure smooth communication with your global clientele.</p>
+              <h2 className="text-2xl font-bold mb-2">Seamless Client Verification</h2>
+              <p>Our AI agents streamline the client verification process across different jurisdictions. They ensure compliance with local regulations, perform due diligence, and expedite the onboarding of new clients in your global expansion efforts.</p>
             </div>
           </Card>
         </div>
