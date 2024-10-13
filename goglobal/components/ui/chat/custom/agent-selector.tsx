@@ -1,11 +1,9 @@
-"use client";
 
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import cx from "classnames";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import { User } from "next-auth";
-import { useEffect, useState } from "react";
+import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
@@ -44,11 +42,25 @@ import {
   SheetTitle,
 } from "../ui/sheet";
 
-export const AgentSelector = () => {
+
+interface Agent {
+  id: string;
+  label: string;
+  // ... other properties if needed
+}
+
+// Example usage:
+const agents: Agent[] = [
+  { id: '1', label: 'USA' },
+  { id: '2', label: 'China' },
+  { id: '3', label: 'Germany' },
+];
+
+export const AgentSelector = ({ OnAgentChange}: { OnAgentChange: (agent: string) => void }) => {
   const { id } = useParams();
   const pathname = usePathname();
 
-  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+  const [isHistoryVisible, setAgentSelectorVisible] = useState(false);
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -59,7 +71,7 @@ export const AgentSelector = () => {
         variant="outline"
         className="p-1.5 h-fit"
         onClick={() => {
-          setIsHistoryVisible(true);
+          setAgentSelectorVisible(true);
         }}
       >
         <MenuIcon />
@@ -68,7 +80,7 @@ export const AgentSelector = () => {
       <Sheet
         open={isHistoryVisible}
         onOpenChange={(state) => {
-          setIsHistoryVisible(state);
+          setAgentSelectorVisible(state);
         }}
       >
         <SheetContent side="left" className="p-3 w-80 bg-muted">
@@ -91,13 +103,22 @@ export const AgentSelector = () => {
             </div>
           </div>
 
-          <div className="mt-10 flex flex-col">
+          <div className="flex flex-col">
+        {agents.map((agent: Agent) => (
+        <button
+          key={agent.id}
+          onClick={async () => {
+            OnAgentChange(agent.label);
+            setAgentSelectorVisible(false);
+          }} // Call callback with item ID
+          className="m-2 p-2 bg-blue-500 text-white rounded-md" // Add styling
+        >
+          {agent.label}
+        </button>
+      ))}
+    </div>
 
 
-            <div className="flex flex-col overflow-y-scroll p-1 h-[calc(100dvh-124px)]">
-
-            </div>
-          </div>
         </SheetContent>
       </Sheet>
 

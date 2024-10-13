@@ -17,7 +17,7 @@ export const Overview = () => {
         <p className="flex flex-row justify-center gap-4 items-center text-zinc-900 dark:text-zinc-50">
         </p>
         <p>
-          GoGlobal
+          Choose from our list of trained agents to get started.
         </p>
       </div>
     </motion.div>
