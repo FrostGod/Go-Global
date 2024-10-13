@@ -63,6 +63,7 @@ def get_router_query_engine(chat_agent = True, llm = None, embed_model = None, d
                 "useful for when you want to answer queries that require analyzing"
                 "multiple document for business in US"
             ),
+            return_direct=False,
         ),
     )
 
@@ -76,6 +77,7 @@ def get_router_query_engine(chat_agent = True, llm = None, embed_model = None, d
                 "useful for searching latest data"
                 "multiple document for business in US and China"
             ),
+            return_direct=False,
         ),
     )
 

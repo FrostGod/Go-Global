@@ -66,7 +66,7 @@ async def query_router(request: QueryRequest):
         # Run the query using the engine
         result = ''
         if 'Client Directory' in request.message:
-            prompt = """Give me 3-5 potential client companies related to my company. Give response as a JSON object in such format.
+            prompt = """Summarize and give me 3-5 potential client companies related to my company. Give response as a JSON object in such format.
             {
                 clients:[
                 { 'client_name': clientA_name, 'client_location': clientA_location, 'client_contact': clientA_phone, 'client_description': clientB_description},
