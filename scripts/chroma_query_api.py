@@ -8,6 +8,7 @@ import chromadb
 from chromadb.config import Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from .llama_index_query import get_router_query_engine
+from .chunk_and_store_in_chroma import chunk_data
 from fastapi.responses import FileResponse  # Add this import
 
 app = FastAPI()
@@ -45,10 +46,12 @@ async def upload_file(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Invalid document format. Only PDFs are supported.")
 
     try:
-        file_path = os.path.join('data/user', file.filename)
+        file_path = os.path.join('data/us', file.filename)
 
         with open(file_path, "wb") as buffer:
             buffer.write(await file.read())
+
+        chunk_data('data/us', 'document_chunks')
 
         return {"message": f"File '{file.filename}' successfully uploaded and saved.", "file_path": file_path}
 
