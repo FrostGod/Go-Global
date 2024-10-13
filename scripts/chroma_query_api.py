@@ -16,7 +16,6 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # Replace with your frontend's origin
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,7 +26,7 @@ agent = get_router_query_engine(chat_agent=True, embed_model=embed_model)
 
 # Define a request model
 class QueryRequest(BaseModel):
-    query: str
+    message: str
 
 """
 @app.get("/")
@@ -61,10 +60,11 @@ async def query_router(request: QueryRequest):
     print(request)
     try:
         # Run the query using the engine
-        result = agent.chat(request.query)
-        return {"answer": str(result)}
+        result = agent.chat(request.message)
+        return {"message": str(result)}
 
     except Exception as e:
+        print('Error')
         raise HTTPException(status_code=500, detail=str(e))
 
 # Run the FastAPI app

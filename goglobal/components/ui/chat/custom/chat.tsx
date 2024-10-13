@@ -49,12 +49,13 @@ export function Chat({
       attachments: attachments,
     }, {
       headers: {
-        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        //'Referrer-Policy': 'strict-origin-when-cross-origin',
         'Content-Type': 'application/json',
       },
       withCredentials: true, // This is needed if you're using cookies for authentication
     })
       .then(response => {
+        console.log(response.data)
         const aiMessage: Message = { 
           id: Date.now().toString(),
           role: "assistant", 
