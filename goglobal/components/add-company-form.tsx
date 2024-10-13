@@ -10,7 +10,6 @@ interface FormData {
   expansion_locations: string;
   objective: string;
   potential_interests: string;
-  image_url: string;
 }
 
 interface AddCompanyFormProps {
@@ -25,7 +24,6 @@ export default function AddCompanyForm({ onClose, onSubmit }: AddCompanyFormProp
     expansion_locations: '',
     objective: '',
     potential_interests: '',
-    image_url: '',
   })
   const supabase = createClient()
 
@@ -36,30 +34,34 @@ export default function AddCompanyForm({ onClose, onSubmit }: AddCompanyFormProp
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    console.log('Submitting form data:', formData)
     try {
-      // Generate a random ID
       const randomId = Math.floor(Math.random() * 1000000) + 1
 
-      const { data, error } = await supabase
-        .from('expansion_info')
-        .insert([
-          {
-            id: randomId, // Add the random ID here
-            ...formData,
-            expansion_locations: formData.expansion_locations.split(',').map(loc => loc.trim()),
-          }
-        ])
-      
-      if (error) {
-        console.error('Error adding company:', error)
-        alert(`Error adding company: ${error.message}`)
-      } else {
-        console.log('Company added successfully:', data)
-        onSubmit()
+      const response = await fetch('/api/companies', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: randomId,
+          ...formData,
+          expansion_locations: formData.expansion_locations.split(',').map(loc => loc.trim()),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'An error occurred while adding the company.');
       }
+
+      console.log('Company added successfully:', result.data);
+      onSubmit();
     } catch (error) {
-      console.error('Unexpected error:', error)
-      alert('An unexpected error occurred. Please try again.')
+      console.error('Error adding company:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred while adding the company. Please try again.';
+      alert(errorMessage);
     }
   }
 
@@ -70,7 +72,6 @@ export default function AddCompanyForm({ onClose, onSubmit }: AddCompanyFormProp
       <Input name="expansion_locations" placeholder="Expansion Locations (comma-separated)" onChange={handleChange} required />
       <Input name="objective" placeholder="Objective" onChange={handleChange} required />
       <Input name="potential_interests" placeholder="Potential Interests" onChange={handleChange} required />
-      <Input name="image_url" placeholder="Logo URL" onChange={handleChange} required />
       <div className="flex justify-end space-x-2">
         <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
         <Button type="submit">Add Company</Button>

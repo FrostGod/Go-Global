@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { BackgroundPattern } from '@/components/background-pattern'
 import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from '@clerk/nextjs'
+import { Card } from '@/components/ui/card'
 
 export default function Home() {
   return (
@@ -21,9 +22,11 @@ export default function Home() {
             <span className="text-xl font-bold">GoGlobal</span>
           </div>
           <div className="space-x-4">
+            <Link href="/profile">Profile</Link>
             <Link href="/agents">Agents</Link>
             <Link href="/expo">Expo</Link>
             <Link href="/pricing">Pricing</Link>
+            
             <SignedOut>
               <SignInButton mode="modal">
                 <Button variant="outline">Sign In</Button>
@@ -40,20 +43,24 @@ export default function Home() {
       </header>
       <main className="flex-grow container mx-auto py-16 text-center">
         <h1 className="text-6xl font-bold mb-6">
-          World Agents<br />
-          <span className="bg-yellow-200 px-2">Expand Your Business</span>
+        Expand Your Business <br/>
+          <span className="bg-yellow-200 px-2">With World Agents</span>
         </h1>
         <p className="text-xl mb-8 max-w-2xl mx-auto">
-          The go to platform to expand your business globally with AI agents.
+          The go to platform to expand your business globally with AI agents doing major lifting.
           we have agents figuring out expansion strategies for you.
           we have agents that can help you find leads and close deals.
           we have agents that can help you manage your customers.
         </p>
         <div className="space-x-4 mb-12">
-          <Button size="lg">Get Started</Button>
-          <Button size="lg" variant="outline">Get a demo</Button>
+          <Link href="/pricing">
+            <Button size="lg">Get Started</Button>
+          </Link>
+          <Link href="/agents">
+            <Button size="lg" variant="outline">Get a demo</Button>
+          </Link>
         </div>
-        <div className="relative w-full max-w-4xl mx-auto">
+        <div className="relative w-full max-w-4xl mx-auto mb-16">
           <Image
             src="/images/llama_agents.jpeg"
             alt="GoGlobal Platform Preview"
@@ -61,6 +68,39 @@ export default function Home() {
             height={675}
             className="rounded-lg shadow-2xl"
           />
+        </div>
+        
+        {/* Feature Cards */}
+        <div className="space-y-8">
+          <Card className="flex p-6">
+            <div className="w-1/3">
+              <Image src="/images/llama_us.jpg" alt="Expansion Strategy" width={300} height={200} className="rounded-lg" />
+            </div>
+            <div className="w-2/3 pl-6 text-left">
+              <h2 className="text-2xl font-bold mb-2">AI-Powered Expansion Strategies</h2>
+              <p>Our AI agents analyze global markets and provide tailored expansion strategies for your business. Get insights on potential locations, market trends, and growth opportunities.</p>
+            </div>
+          </Card>
+          
+          <Card className="flex p-6">
+            <div className="w-1/3">
+              <Image src="/images/llama_china.jpeg" alt="Lead Generation" width={300} height={200} className="rounded-lg" />
+            </div>
+            <div className="w-2/3 pl-6 text-left">
+              <h2 className="text-2xl font-bold mb-2">Intelligent Lead Generation</h2>
+              <p>Let our AI agents find and qualify leads in your target markets. They'll identify potential customers, partners, and distributors to accelerate your global expansion.</p>
+            </div>
+          </Card>
+          
+          <Card className="flex p-6">
+            <div className="w-1/3">
+              <Image src="/images/llama_india.jpeg" alt="Customer Management" width={300} height={200} className="rounded-lg" />
+            </div>
+            <div className="w-2/3 pl-6 text-left">
+              <h2 className="text-2xl font-bold mb-2">Seamless Customer Management</h2>
+              <p>Our AI agents help you manage customer relationships across different cultures and time zones. They provide 24/7 support, handle inquiries, and ensure smooth communication with your global clientele.</p>
+            </div>
+          </Card>
         </div>
       </main>
       <footer className="bg-gray-100">

@@ -25,6 +25,9 @@ agents(which are experts in their own domain), and users can use these agents to
 
   - now lets connect the supabase
 
+- Pricing Page
+  - implement a simple pricing based on the image layout shown, it should be relevant to the project built
+
 
 
   it has already been setup 
@@ -38,7 +41,6 @@ agents(which are experts in their own domain), and users can use these agents to
   potential_interests text
 );
 
-the logo should go to the logo's storage bucket
   
 
 
