@@ -3,6 +3,7 @@
 import { Attachment, Message, ChatRequestOptions, CreateMessage } from "ai";
 import { useState } from "react";
 import axios from 'axios';
+import { TransparentLoader } from '@/components/ui/chat/custom/LoadIcon';
 import { toast } from 'react-hot-toast'; // Add this import if you're using react-hot-toast for notifications
 
 import { Message as PreviewMessage } from "@/components/ui/chat/custom/message";
@@ -113,6 +114,12 @@ export function Chat({
             ref={messagesEndRef}
             className="shrink-0 min-w-[24px] min-h-[24px]"
           />
+        </div>
+
+        <div>
+        {isLoading ? (
+                        <TransparentLoader/>
+              ) : null}
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px)] px-4 md:px-0">
