@@ -40,7 +40,7 @@ import {
   }
   
   interface LocationTableProps {
-    content: Location[];
+    content: Location[] | null ;
   }
   
   export function LocationTable({ content }: LocationTableProps) {
@@ -55,12 +55,18 @@ import {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {locations.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell className="font-medium">{item.location}</TableCell>
-                <TableCell>{item.description}</TableCell>
-              </TableRow>
-            ))}
+          {Array.isArray(content) && content.length > 0 ? (
+          content.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell className="font-medium">{item.location}</TableCell>
+              <TableCell>{item.description}</TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={2} className="text-center">No content available</TableCell>
+          </TableRow>
+        )}
           </TableBody>
         </Table>
       </div>

@@ -20,14 +20,14 @@ import { Textarea } from "../ui/textarea";
 
 const suggestedActions = [
   {
-    title: "What is the weather",
-    label: "in San Francisco?",
-    action: "what is the weather in San Francisco?",
+    title: "List the top clients",
+    label: "in San Francisco",
+    action: "Client Directory",
   },
   {
-    title: "Answer like I'm 5,",
-    label: "why is the sky blue?",
-    action: "Answer like I'm 5, why is the sky blue?",
+    title: "Show me high traffic",
+    label: "by Population",
+    action: "Location Description",
   },
 ];
 
@@ -162,6 +162,7 @@ export function MultimodalInput({
               >
                 <button
                   onClick={async () => {
+                    setInput(suggestedAction.action)
                     append({
                       role: "user",
                       content: suggestedAction.action,

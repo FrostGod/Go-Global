@@ -26,11 +26,12 @@ interface Location {
 export const Message = ({
   role,
   content,
+  request,
   toolInvocations,
   attachments,
-  format,
 }: {
   role: string;
+  request: string;
   content: string | ReactNode | Client[];
   toolInvocations: Array<ToolInvocation> | undefined;
   attachments?: Array<Attachment>;
@@ -47,15 +48,17 @@ export const Message = ({
       </div>
 
       <div className="flex flex-col gap-2 w-full">
-        {content && (
+      {content && (
           <div className="text-zinc-800 dark:text-zinc-300 flex flex-col gap-4">
-            if (format == "card") {
-            <ClientCard content={content as Client[]} />
-          } else if (format == "table") {
-            <LocationTable content={content as Location[]}/>
-          } else {
-            <Markdown>{content as string}</Markdown>
-          }
+            {request === "Client Directory" && Array.isArray(content) && (
+              <ClientCard content={content as Client[]} />
+            )}
+            {request === "Location List" && Array.isArray(content) && (
+              <LocationTable content={content as unknown as Location[]} />
+            )}
+            {request !== "Client Directory" && request !== "Location List" && typeof content === "string" && (
+              <Markdown>{content}</Markdown>
+            )}
           </div>
         )}
         

@@ -106,6 +106,7 @@ export function Chat({
               key={`${id}-${index}`}
               role={message.role}
               content={message.content}
+              request={input}
               attachments={message.experimental_attachments}
               toolInvocations={message.toolInvocations}
             />

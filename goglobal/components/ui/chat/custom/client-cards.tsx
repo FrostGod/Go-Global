@@ -53,7 +53,9 @@ interface ClientCardProps {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Client Directory</h1>
       <div className="flex flex-col space-y-4 max-w-2xl mx-auto">
-        {clients.map((client, index) => (
+        {          
+        Array.isArray(content) && content.length > 0 ? (
+        content.map((client, index) => (
           <Card key={index} className="overflow-hidden">
             <CardContent className="p-0">
               <div className="flex items-center">
@@ -72,7 +74,7 @@ interface ClientCardProps {
               </div>
             </CardContent>
           </Card>
-        ))}
+        ))): <div>No data</div>}
       </div>
     </div>
   )
